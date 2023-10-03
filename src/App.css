@@ -1,38 +1,206 @@
+/* Estilos Básicos */
+
 .App {
-  text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Ocupa a altura total da viewport */
+    padding: 20px; /* Padding ao redor para evitar que elementos fiquem muito perto das bordas */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Adicionando uma margem de 15px entre os elementos */
+#return-button,
+h1,
+h3,
+.input-group,
+.checkbox-group,
+.button-group,
+.or-option,
+.other-option-login,
+.no-have-account {
+    margin: 15px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+#return-button {
+    width: 50px;               /* Largura do botão */
+    height: 50px;              /* Altura do botão */
+    border-radius: 50%;        /* Torna o botão redondo */
+    display: flex;             /* Ativa o flexbox */
+    align-items: center;       /* Centraliza o conteúdo verticalmente */
+    justify-content: center;   /* Centraliza o conteúdo horizontalmente */
+    background-color: #3FC1C9; /* Cor de fundo do botão */
+    border: none;              /* Remove a borda padrão do botão */
+    cursor: pointer;           /* Muda o cursor para indicar um elemento clicável */
+    padding: 0;                /* Remove o padding padrão */
+    outline: none;             /* Remove o contorno ao clicar/focar no botão */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#return-button svg {
+    width: 32px;               /* Largura do SVG */
+    height: 32px;              /* Altura do SVG */
 }
 
-.App-link {
-  color: #61dafb;
+h1{
+    color: #000;
+    font-family: Poppins;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h3 {
+    color: #000;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px; /* Largura máxima para melhor legibilidade em telas grandes */
+    text-align: center; /* Centraliza os elementos de texto */
+}
+
+button, input, label {
+    width: 100%; /* Ocupa a largura total disponível */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column; /* Pilha os campos de entrada verticalmente */
+    gap: 10px;  /* Espaço entre os campos de entrada */
+}
+
+input {
+    height: 46px;
+    border-radius: 10px;
+    border: 1px solid #8B8B8B;
+    text-align: left;
+    text-indent: 1rem;
+    color: #8B8B8B;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.checkbox-group {
+    display: flex;            
+    align-items: center;      
+    justify-content: space-between; /* Distribui espaço entre os itens */
+    gap: 10px;                
+    flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha se não houver espaço suficiente */
+}
+
+.checkbox-group a {
+    order: 2; /* Posiciona o "Forgot password?" após a checkbox e o label */
+    margin-left: auto; /* Empurra o "Forgot password?" para o lado direito */
+    color: #3FC1C9;
+    font-family: Poppins;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.checkbox-group input, .checkbox-group label {
+    width: auto; /* Defina a largura para 'auto', permitindo que os elementos se ajustem ao seu conteúdo */
+    color: #949090;
+    font-family: Poppins;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+button[type="submit"] {
+    height: 50px;
+    border-radius: 15px;
+    background: linear-gradient(91deg, #3FC1C9 0.58%, #018189 95.65%);
+    border: none;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.or-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;  /* Espaçamento entre as linhas e o texto */
+}
+
+.line {
+    flex-grow: 1;  /* Permite que as linhas cresçam para ocupar o espaço disponível */
+    height: 2px;  /* Espessura das linhas */
+    background: linear-gradient(-90deg, #3FC1C9 0%, rgba(63, 193, 201, 0.31) 101.25%);}
+
+.line2 {
+    flex-grow: 1;  /* Permite que as linhas cresçam para ocupar o espaço disponível */
+    height: 2px;  /* Espessura das linhas */
+    background: linear-gradient(90deg, #3FC1C9 0%, rgba(63, 193, 201, 0.31) 101.25%);
+}
+
+.or-text {
+    padding: 0 10px;  /* Espaçamento ao redor do texto "OR" */
+}
+
+.other-option-login {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões de login de terceiros */
+    justify-content: center; /* Centraliza os botões horizontalmente */
+}
+
+.login-option-google, .login-option-facebook, .login-option-apple {
+    border-radius: 50%;
+    background-color: transparent;  /* Remove o fundo */
+    border: none;                   /* Remove a borda */
+    padding: 10px;                  /* Adiciona algum espaço ao redor do símbolo para tornar a área clicável maior */
+    cursor: pointer;                /* Muda o cursor para indicar um elemento clicável */
+    outline: none;                  /* Remove o contorno ao clicar/focar no botão */
+}
+
+.no-have-account {
+    color: #000;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.no-have-account a{
+    color: #3FC1C9;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Estilos Responsivos para Telas Menores (por exemplo, dispositivos móveis) */
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 10px; /* Reduz o padding para dispositivos menores */
+    }
+
+    button, input, label {
+        font-size: 14px; /* Reduz o tamanho da fonte para melhor ajuste */
+    }
+}
+
+/* Estilos Responsivos para Telas Maiores (por exemplo, tablets e desktops) */
+
+@media (min-width: 481px) {
+    button, input, label {
+        font-size: 16px; /* Tamanho da fonte maior para telas maiores */
+    }
 }
