@@ -1,0 +1,50 @@
+.notification-top-container {
+    border: 1px solid #FFF;
+    background: var(--Gradient, linear-gradient(91deg, #3FC1C9 0.58%, #018189 95.65%));
+}
+
+.notification-sub-container {
+    margin-top: 2rem;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: auto;
+    border-radius: 10px;
+    border: 1px solid #8B8B8B;
+    padding: 5px 10px;  /* Espaçamento ao redor do container */
+}
+
+.notification {
+    color: #000;
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.notification.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.or-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;  /* Espaçamento entre as linhas e o texto */
+}
+
+.notification-line {
+    flex-grow: 1;  /* Permite que as linhas cresçam para ocupar o espaço disponível */
+    height: 2px;  /* Espessura das linhas */
+    background: linear-gradient(-90deg, #3FC1C9 0%, rgba(63, 193, 201, 0.31) 101.25%);}
+
+.notification-line2 {
+    flex-grow: 1;  /* Permite que as linhas cresçam para ocupar o espaço disponível */
+    height: 2px;  /* Espessura das linhas */
+    background: linear-gradient(90deg, #3FC1C9 0%, rgba(63, 193, 201, 0.31) 101.25%);
+}
