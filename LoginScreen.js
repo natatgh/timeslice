@@ -1,83 +1,82 @@
 import React, { useState } from 'react';
 import Notification from './Notification';
+import firebase from './firebase';
 import "./App.css"
 
-function RegisterScreen(props) {
+function App(props) {
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
 
-  const handleRegister = (e) => {
+  const handleLogin = (e) => {
       e.preventDefault();
 
       const registeredUsers = JSON.parse(localStorage.getItem('users') || "[]");
 
-      if (registeredUsers.some(u => u.email === email)) {
-          setMessage('O email já está registrado.');
+      const user = registeredUsers.find(u => u.email === email && u.password === password);
+
+      if (user) {
+          setMessage('Login bem-sucedido!');
           setTimeout(() => {
               setMessage(null);
           }, 3000);
-          return;
+      } else {
+          setMessage('Email ou senha inválidos.');
+          setTimeout(() => {
+              setMessage(null);
+          }, 3000);
       }
 
-      registeredUsers.push({ email, password });
-      localStorage.setItem('users', JSON.stringify(registeredUsers));
-
-      setMessage('Registro bem-sucedido!');
-      setTimeout(() => {
-          setMessage(null);
-          props.onNavigateToLogin(); // Navega de volta para a tela de login
-      }, 3000);
-    }
-
-  // Função para lidar com o clique no link "Terms & Conditions"
-  function handleTermsClick(e) {
-    e.preventDefault(); // Isso evita que o link redirecione
-    alert('Mostrando os Termos e Condições');
-  }
-
-  // Função para lidar com o clique no link "Privacy Policy"
-  function handlePrivacyClick(e) {
-    e.preventDefault(); // Isso evita que o link redirecione
-    alert('Mostrando a Política de Privacidade');
+      // Firebase authentication for login
+      firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+          setMessage('Logged in successfully!');
+          setTimeout(() => setMessage(''), 3000);
+      }).catch((error) => {
+          setMessage(error.message);
+          setTimeout(() => setMessage(''), 3000);
+      });
   }
 
   return (
-    <div className="App">
-  <Notification message={message} />
+    <div className="">
+      <Notification message={message} />
       <div className="login-container">
+        <button id='return-button' onClick={props.onNavigateToRegister}>
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="16" fill="#3FC1C9"/>
+            <path d="M19.3664 9.09733C19.5787 9.30962 19.6979 9.59752 19.6979 9.8977C19.6979 10.1979 19.5787 10.4858 19.3664 10.6981L13.7626 16.3019L19.3664 21.9056C19.5726 22.1191 19.6867 22.4051 19.6842 22.7019C19.6816 22.9988 19.5625 23.2827 19.3526 23.4926C19.1427 23.7025 18.8588 23.8215 18.562 23.8241C18.2651 23.8267 17.9792 23.7126 17.7657 23.5064L11.3615 17.1022C11.1493 16.8899 11.0301 16.602 11.0301 16.3019C11.0301 16.0017 11.1493 15.7138 11.3615 15.5015L17.7657 9.09733C17.978 8.88509 18.2659 8.76587 18.566 8.76587C18.8662 8.76587 19.1541 8.88509 19.3664 9.09733V9.09733Z" fill="white"/>
+          </svg>
+        </button>
 
-        <h1>Create an account</h1>
-        <h3>Register for a new account</h3>
+        <h1>Welcome back</h1>
+        <h3>Login to your account</h3>
 
-        <form className="login-form" onSubmit={handleRegister}>
+        <form className="login-form" onSubmit={handleLogin}>
             <div className="input-group">
-                <input type='text' placeholder='Digite seu nome' value={name} onChange={(e) => setName(e.target.value)} />
-                <input type='email' placeholder='Digite seu e-mail' value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type='text' placeholder='Digite seu telefone' value={phone} onChange={(e) => setPhone(e.target.value)} />
-                <input type='password' placeholder='Digite sua senha' value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input type='email' placeholder='Enter email' value={email} onChange={(e) => setEmail(e.target.value)} />
+
+              <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+
             </div>
-          <div className="checkbox-group">
-            <label htmlFor="termsAndConditions">
-              By signing up you agree to our
-              <a href="/terms-and-conditions" onClick={handleTermsClick}>Terms & Conditions</a>
-              and
-              <a href="/privacy-policy" onClick={handlePrivacyClick}>Privacy Policy</a>
-            </label>
+
+            <div className="checkbox-group">
+              <input type="checkbox" id="rememberMe" />
+              <label htmlFor="rememberMe">Remember me</label>
+              <a href='www.resetpasswordhere.com'>Forgot password?</a>
           </div>
+
             <div className='button-group'>
-                <button type='submit'>Register</button>
+                <button type='submit'>Log in</button>
             </div>
         </form>
 
         <div className="or-option">
-          <span className="line"></span>
-          <span className="or-text">OR</span>
-          <span className="line2"></span>
+          <span class="line"></span>
+          <span class="or-text">OR</span>
+          <span class="line2"></span>
         </div> 
+
         <div className='other-option-login'>
             <button className='login-option-google'>
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -107,11 +106,11 @@ function RegisterScreen(props) {
             </button>
         </div>
           <div className='no-have-account'>
-              <p>Already have an account? <span onClick={props.onNavigateToLogin} style={{color: '#3FC1C9', cursor: 'pointer'}}>Log in</span></p>
+              <p>Don't have an account? <span onClick={props.onNavigateToRegister} style={{color: '#3FC1C9', cursor: 'pointer'}}>Register</span></p>
           </div>
-      </div>
-    </div>
+        </div>
+  </div>
   );
 }
 
-export default RegisterScreen;
+export default App;

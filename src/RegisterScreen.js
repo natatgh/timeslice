@@ -1,3 +1,5 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from './firebase';
 import React, { useState } from 'react';
 import Notification from './Notification';
 import "./App.css"
@@ -11,37 +13,40 @@ function RegisterScreen(props) {
   const [message, setMessage] = useState(null);
 
   const handleRegister = (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      const registeredUsers = JSON.parse(localStorage.getItem('users') || "[]");
-
-      if (registeredUsers.some(u => u.email === email)) {
-          setMessage('O email já está registrado.');
-          setTimeout(() => {
-              setMessage(null);
-          }, 3000);
-          return;
+    // Use Firebase auth to create a new user
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        // Registration successful
+        setMessage('Registro bem-sucedido!');
+        setTimeout(() => {
+            setMessage(null);
+            props.onNavigateToLogin();
+        }, 3000);
+    })
+    .catch((error) => {
+      // Handle registration errors
+      if (error.code === "auth/email-already-in-use") {
+          setMessage('O e-mail fornecido já está em uso.');
+      } else {
+          setMessage(error.message);
       }
-
-      registeredUsers.push({ email, password });
-      localStorage.setItem('users', JSON.stringify(registeredUsers));
-
-      setMessage('Registro bem-sucedido!');
       setTimeout(() => {
           setMessage(null);
-          props.onNavigateToLogin(); // Navega de volta para a tela de login
       }, 3000);
-    }
+  });
+}
 
   // Função para lidar com o clique no link "Terms & Conditions"
   function handleTermsClick(e) {
-    e.preventDefault(); // Isso evita que o link redirecione
+    e.preventDefault();
     alert('Mostrando os Termos e Condições');
   }
 
   // Função para lidar com o clique no link "Privacy Policy"
   function handlePrivacyClick(e) {
-    e.preventDefault(); // Isso evita que o link redirecione
+    e.preventDefault();
     alert('Mostrando a Política de Privacidade');
   }
 
@@ -56,21 +61,13 @@ function RegisterScreen(props) {
         <form className="login-form" onSubmit={handleRegister}>
             <div className="input-group">
                 <input type='text' placeholder='Digite seu nome' value={name} onChange={(e) => setName(e.target.value)} />
-                <input type='email' placeholder='Digite seu e-mail' value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type='text' placeholder='Digite seu telefone' value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <input type='email' placeholder='Digite seu email' value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type='text' placeholder='Digite seu telefone' value={phone} onChange={(e) => setPhone(e.target.value)} />
                 <input type='password' placeholder='Digite sua senha' value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-          <div className="checkbox-group">
-            <label htmlFor="termsAndConditions">
-              By signing up you agree to our
-              <a href="/terms-and-conditions" onClick={handleTermsClick}>Terms & Conditions</a>
-              and
-              <a href="/privacy-policy" onClick={handlePrivacyClick}>Privacy Policy</a>
-            </label>
-          </div>
-            <div className='button-group'>
-                <button type='submit'>Register</button>
-            </div>
+            <button className="btn-primary" type="submit">Register</button>
+        <button onClick={handleTermsClick} style={{marginRight: "10px"}}>Termos de Uso</button>
+        <button onClick={handlePrivacyClick}>Política de Privacidade</button>
         </form>
 
         <div className="or-option">

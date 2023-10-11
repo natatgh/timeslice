@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
-import LoginScreen from './LoginScreen'; // Supondo que LoginScreen.js esteja no mesmo diretório
-import RegisterScreen from './RegisterScreen'; // Supondo que RegisterScreen.js esteja no mesmo diretório
 
-function ParentComponent() {
-  const [showLogin, setShowLogin] = useState(true); // Estado inicial mostrando a tela de login
+import React, { useState } from "react";
+import LoginScreen from "./LoginScreen";
+import RegisterScreen from "./RegisterScreen";
+import "./App.css";
 
-  return (
-    <div>
-      {showLogin 
-        ? <LoginScreen onNavigateToRegister={() => setShowLogin(false)} />
-        : <RegisterScreen onNavigateToLogin={() => setShowLogin(true)} />
-      }
-    </div>
-  );
+function App() {
+    const [screen, setScreen] = useState("login");
+
+    const navigateToLogin = () => {
+        setScreen("login");
+    };
+
+    const navigateToRegister = () => {
+        setScreen("register");
+    };
+
+    return (
+        <div className="App">
+            {screen === "login" && <LoginScreen onNavigateToRegister={navigateToRegister} />}
+            {screen === "register" && <RegisterScreen onNavigateToLogin={navigateToLogin} />}
+        </div>
+    );
 }
 
-export default ParentComponent;
+export default App;

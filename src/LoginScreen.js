@@ -1,35 +1,37 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from './firebase';
 import React, { useState } from 'react';
 import Notification from './Notification';
 import "./App.css"
 
-function App(props) {
-
+function LoginScreen(props) {
   const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [message, setMessage] = useState(null);
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(null);
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-
-        const registeredUsers = JSON.parse(localStorage.getItem('users') || "[]");
-
-        const user = registeredUsers.find(u => u.email === email && u.password === password);
-
-        if (user) {
-            setMessage('Login bem-sucedido!');
-            setTimeout(() => {
-                setMessage(null);
-            }, 3000);
-        } else {
-            setMessage('Email ou senha inválidos.');
-            setTimeout(() => {
-                setMessage(null);
-            }, 3000);
-        }
-    }
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setMessage('Login Successful!');
+        setTimeout(() => {
+          setMessage(null);
+          // Navegue para o painel do usuário ou página inicial após o login bem-sucedido
+        }, 3000);
+      })
+    .catch((error) => {
+      console.error(error.code, error.message); // Adicione esta linha para imprimir a mensagem de erro no console
+      setMessage("Invalid credentials!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+    });
+  }      
 
   return (
-    <div className="App">
+    <div className="">
+      <Notification message={message} />
       <div className="login-container">
         <button id='return-button' onClick={props.onNavigateToRegister}>
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -102,4 +104,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default LoginScreen;
