@@ -52,7 +52,7 @@ function RegisterScreen(props) {
 
   return (
     <div className="App">
-  <Notification message={message} />
+      <Notification message={message} />
       <div className="login-container">
 
         <h1>Create an account</h1>
@@ -66,8 +66,9 @@ function RegisterScreen(props) {
                 <input type='password' placeholder='Digite sua senha' value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <button className="btn-primary" type="submit">Register</button>
-        <button onClick={handleTermsClick} style={{marginRight: "10px"}}>Termos de Uso</button>
-        <button onClick={handlePrivacyClick}>Política de Privacidade</button>
+            <div className='terms-privacity'>
+              <p>By signing up you agree to our <span onClick={props.onNavigateToLogin} style={{color: '#3FC1C9', cursor: 'pointer'}}>Terms & Conditions</span> and <span onClick={props.onNavigateToLogin} style={{color: '#3FC1C9', cursor: 'pointer'}}>Privacy Policy</span></p>
+            </div>
         </form>
 
         <div className="or-option">
