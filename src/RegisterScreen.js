@@ -38,18 +38,6 @@ function RegisterScreen(props) {
   });
 }
 
-  // Função para lidar com o clique no link "Terms & Conditions"
-  function handleTermsClick(e) {
-    e.preventDefault();
-    alert('Mostrando os Termos e Condições');
-  }
-
-  // Função para lidar com o clique no link "Privacy Policy"
-  function handlePrivacyClick(e) {
-    e.preventDefault();
-    alert('Mostrando a Política de Privacidade');
-  }
-
   return (
     <div className="App">
       <Notification message={message} />

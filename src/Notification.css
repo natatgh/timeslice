@@ -1,6 +1,4 @@
-
-html,
-body {
+html, body {
     height: 100%;
 }
 
@@ -8,14 +6,14 @@ body {
     margin-top: 2rem;
     justify-content: flex-start;
     align-items: center;
-    max-width: 300px;
+    max-width: 350px;
     background: #fff;
     border-radius: 50%;
     color: white;
     opacity: 0;
     overflow: hidden;
     animation: scale-in .2s ease-out forwards,
-               expand 2s .25s ease-out forwards;
+               expand .4s .25s ease-out forwards;
 }
 
 .rectangle {
@@ -33,7 +31,7 @@ body {
     align-items: center;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
-    animation: fade-in .3s ease-in forwards;
+    animation: fade-in 2s ease-in forwards;
     background: inherit;
     flex-grow: 1;
     border-radius: 4px 0 0 4px;
@@ -62,13 +60,13 @@ body {
 }
 
 @keyframes expand {
-    50% {
+    100% {
         width: 350px;
         border-radius: 6px;
     }
     100% {
-        width: 360px;
-        border-radius: 4px;
+        width: 350px;
+        border-radius: 6px;
         box-shadow: 0px 1px 3px 0px rgba(0,0,0,.2),
                     0px 1px 1px 0px rgba(0,0,0,.14),
                     0px 3px 3px -1px rgba(0,0,0,.12);
