@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import Notification from './Notification';
 import "./App.css"
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 function LoginScreen(props) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
@@ -18,59 +20,36 @@ function LoginScreen(props) {
         setMessage('Login Successful!');
         setTimeout(() => {
           setMessage(null);
-          // Navegue para o painel do usuário ou página inicial após o login bem-sucedido
+          props.onLoginSuccess();  
+          navigate('/home');
         }, 3000);
       })
-    .catch((error) => {
-      console.error(error.code, error.message); // Adicione esta linha para imprimir a mensagem de erro no console
-      setMessage("Invalid credentials!");
-      setTimeout(() => {
-        setMessage(null);
-      }, 3000);
-    });
+      .catch((error) => {
+        console.error(error.code, error.message); 
+        setMessage("Invalid credentials!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      });
   }
   
-  const googleLogin = async () => {
+  const handleSocialLogin = async (provider) => {
     try {
-      const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       setMessage('Login Successful!');
-          setTimeout(() => {
-            setMessage(null);
-            // Navegue para o painel do usuário ou página inicial após o login bem-sucedido
-          }, 3000);
+      setTimeout(() => {
+        setMessage(null);
+        props.onLoginSuccess();  
+        navigate('/home');
+      }, 3000);
     } catch (error) {
       console.error(error);
     }
-  };
-  
-  const facebookLogin = async () => {
-    try {
-      const provider = new FacebookAuthProvider();
-      await signInWithPopup(auth, provider);
-      setMessage('Login Successful!');
-          setTimeout(() => {
-            setMessage(null);
-            // Navegue para o painel do usuário ou página inicial após o login bem-sucedido
-          }, 3000);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  
-  const appleLogin = async () => {
-    try {
-      const provider = new OAuthProvider('apple.com');
-      await signInWithPopup(auth, provider);
-      setMessage('Login Successful!');
-          setTimeout(() => {
-            setMessage(null);
-            // Navegue para o painel do usuário ou página inicial após o login bem-sucedido
-          }, 3000);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  }
+
+  const googleLogin = () => handleSocialLogin(new GoogleAuthProvider());
+  const facebookLogin = () => handleSocialLogin(new FacebookAuthProvider());
+  const appleLogin = () => handleSocialLogin(new OAuthProvider('apple.com'));
 
   return (
     <div className="">
@@ -105,11 +84,11 @@ function LoginScreen(props) {
             </div>
         </form>
 
-        <div className="or-option">
-          <span class="line"></span>
-          <span class="or-text">OR</span>
-          <span class="line2"></span>
-        </div> 
+        <div className='or-option'>
+          <span className="line"></span>
+          <span className="or-text">OR</span>
+          <span className="line2"></span>
+        </div>
 
         <div className='other-option-login'>
             <button className='login-option-google' onClick={googleLogin}>
@@ -122,7 +101,7 @@ function LoginScreen(props) {
             </button>
             <button className='login-option-facebook' onClick={facebookLogin}>
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <g clip-path="url(#clip0_33_268)">
+                <g clipPath="url(#clip0_33_268)">
                   <path d="M32 16C32 7.1635 24.8365 0 16 0C7.1635 0 0 7.16337 0 16C0 23.986 5.851 30.6054 13.5 31.8056V20.625H9.4375V16H13.5V12.475C13.5 8.465 15.8888 6.25 19.5434 6.25C21.294 6.25 23.125 6.5625 23.125 6.5625V10.5H21.1075C19.1198 10.5 18.5 11.7334 18.5 12.9987V16H22.9375L22.2281 20.625H18.5V31.8056C26.149 30.6054 32 23.9861 32 16Z" fill="#1877F2"/>
                   <path d="M22.2281 20.625L22.9375 16H18.5V12.9987C18.5 11.7332 19.1199 10.5 21.1075 10.5H23.125V6.5625C23.125 6.5625 21.294 6.25 19.5434 6.25C15.8888 6.25 13.5 8.465 13.5 12.475V16H9.4375V20.625H13.5V31.8056C14.327 31.9352 15.1629 32.0002 16 32C16.8371 32.0002 17.673 31.9353 18.5 31.8056V20.625H22.2281Z" fill="white"/>
                 </g>
